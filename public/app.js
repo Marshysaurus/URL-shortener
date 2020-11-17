@@ -1,28 +1,26 @@
-function shortenUrl() {
-  console.log("shortenUrl");
-  //check if + in last part
-  let longUrl = document.getElementById("long_url").value;
-
-  let payload = {
-    method: "POST",
+function postURL(url) {
+  return fetch("/urls", {
+    method: "post",
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      "Content-type": "application/json",
     },
-    body: JSON.stringify({ longUrl: longUrl }),
-  };
+    body: JSON.stringify({ longUrl: url.longUrl }),
+  }).then((response) => response.json());
 }
 
-function getUrlData() {
-  console.log("getUrl");
-  let shortUrl = document.getElementById("short_url").value;
+async function storeURL() {
+  try {
+    const longUrl = document.querySelector("#url_input").value;
+    // TODO: Validate URL
+    const result = await postURL({ longUrl });
+    // Manually update HTML
+    document.querySelector("#url_input").value = "";
 
-  let payload = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ longUrl: longUrl }),
-  };
+    document.querySelector(
+      "#url_shortened"
+    ).innerHTML = `Generated URL: ${result.data.shortUrl}`;
+  } catch (e) {
+    // TODO: Handle the error properly
+    throw new Error("URL could not be added");
+  }
 }
