@@ -8,7 +8,6 @@ router.post("/urls", postOne);
 // Overwrite all but urls
 router.get("/:id", redirect);
 
-// Eeach route define its path
 module.exports = {
   pathname: "/",
   router,

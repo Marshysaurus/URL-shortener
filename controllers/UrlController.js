@@ -2,7 +2,7 @@ const { nanoid } = require("nanoid");
 const Url = require("../models/Urls");
 
 async function postOne(req, res) {
-  const { longUrl } = req.body.longUrl;
+  const { longUrl } = req.body;
   const shortUrl = "http://localhost:4200/" + nanoid(5);
   const insert = await Url.insertOne({ longUrl, shortUrl });
   const inserted = await Url.getOne(insert[0]);
